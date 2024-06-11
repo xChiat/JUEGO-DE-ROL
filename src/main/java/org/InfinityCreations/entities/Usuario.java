@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 public class Usuario {
+    // atributos
     @Id
     private long id;
     private String nombre;
@@ -15,6 +16,7 @@ public class Usuario {
     private Timestamp fechaRegistro;
     private String password;
     private String nacionalidad;
+    // constructor
     public Usuario(long id, String nombre, String correo, String perfil, Timestamp fechaRegistro, String password, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
