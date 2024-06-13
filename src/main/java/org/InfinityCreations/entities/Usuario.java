@@ -12,12 +12,12 @@ public class Usuario {
     private long id;
     private String nombre;
     private String correo;
-    private String perfil;
+    private Perfil perfil;
     private Timestamp fechaRegistro;
     private String password;
     private String nacionalidad;
     // constructor
-    public Usuario(long id, String nombre, String correo, String perfil, Timestamp fechaRegistro, String password, String nacionalidad) {
+    public Usuario(long id, String nombre, String correo, Perfil perfil, Timestamp fechaRegistro, String password, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -50,15 +50,12 @@ public class Usuario {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-
-    public String getPerfil() {
+    public Perfil getPerfil() {
         return perfil;
     }
-
-    public void setPerfil(String perfil) {
+    public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-
     public Timestamp getFechaRegistro() {
         return fechaRegistro;
     }
