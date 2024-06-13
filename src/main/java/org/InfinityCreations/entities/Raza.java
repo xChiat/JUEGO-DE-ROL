@@ -11,6 +11,7 @@ public class Raza {
     private String descripcion;
     private String imagen;
     Habilidad[] skillsByRaza;
+    Poder[] powersByRaza;
 
     public Raza(long id, String nombre, String descripcion, String imagen) {
         this.id = id;
@@ -49,5 +50,21 @@ public class Raza {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public Habilidad[] getSkillsByRaza() {
+        return skillsByRaza;
+    }
+
+    public void setSkillsByRaza(Habilidad[] skillsByRaza) {
+        this.skillsByRaza = skillsByRaza;
+    }
+
+    public Poder[] getPowersByRaza() {
+        return powersByRaza;
+    }
+
+    public void setPowersByRaza(Poder[] powersByRaza) {
+        this.powersByRaza = powersByRaza;
     }
 }
