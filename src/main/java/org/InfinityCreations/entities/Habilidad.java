@@ -4,19 +4,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Raza {
+public class Habilidad {
     @Id
     private long id;
     private String nombre;
     private String descripcion;
-    private String imagen;
-    Habilidad[] skillsByRaza;
+    private int bonoDestresa;
+    private int bonoInteligencia;
 
-    public Raza(long id, String nombre, String descripcion, String imagen) {
+    public Habilidad(long id, String nombre, String descripcion, int bonoDestresa, int bonoInteligencia) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagen = imagen;
+        this.bonoDestresa = bonoDestresa;
+        this.bonoInteligencia = bonoInteligencia;
     }
 
     public long getId() {
@@ -43,11 +44,19 @@ public class Raza {
         this.descripcion = descripcion;
     }
 
-    public String getImagen() {
-        return imagen;
+    public int getBonoDestresa() {
+        return bonoDestresa;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setBonoDestresa(int bonoDestresa) {
+        this.bonoDestresa = bonoDestresa;
+    }
+
+    public int getBonoInteligencia() {
+        return bonoInteligencia;
+    }
+
+    public void setBonoInteligencia(int bonoInteligencia) {
+        this.bonoInteligencia = bonoInteligencia;
     }
 }
