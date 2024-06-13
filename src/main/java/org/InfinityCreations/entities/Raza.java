@@ -10,16 +10,18 @@ public class Raza {
     private String nombre;
     private String descripcion;
     private String imagen;
-    Habilidad[] skillsByRaza;
-    Poder[] powersByRaza;
-
-    public Raza(long id, String nombre, String descripcion, String imagen) {
+    private Habilidad[] skillsByRaza;
+    private Poder[] powersByRaza;
+    //Constructor
+    public Raza(long id, String nombre, String descripcion, String imagen, Habilidad[] skillsByRaza, Poder[] powersByRaza) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
+        this.skillsByRaza = skillsByRaza;
+        this.powersByRaza = powersByRaza;
     }
-
+    //Getters and setters
     public long getId() {
         return id;
     }
