@@ -4,20 +4,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class Usuario {
     // atributos
     @Id
     private long id;
-    private String nombre;
+    private static String nombre;
     private String correo;
     private Perfil perfil;
-    private Timestamp fechaRegistro;
+    private LocalDateTime fechaRegistro;
     private String password;
     private String nacionalidad;
     // constructor
-    public Usuario(long id, String nombre, String correo, Perfil perfil, Timestamp fechaRegistro, String password, String nacionalidad) {
+    public Usuario(long id, String nombre, String correo, Perfil perfil, LocalDateTime fechaRegistro, String password, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -35,7 +36,7 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombre() {
+    public static String getNombre() {
         return nombre;
     }
 
@@ -56,11 +57,11 @@ public class Usuario {
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-    public Timestamp getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Timestamp fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
