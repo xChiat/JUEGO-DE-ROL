@@ -1,8 +1,12 @@
 package org.InfinityCreations.controller;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.InfinityCreations.entities.Perfil;
 import org.InfinityCreations.entities.Usuario;
 import org.hibernate.Session;
+import org.hibernate.SessionBuilder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,8 +17,16 @@ public class UsuarioController {
     private List<Perfil> perfiles;
 
     public UsuarioController() {
-        usuarios = new ArrayList<>();
-        perfiles = new ArrayList<>();
+        try(EntityManagerFactory entityManagerFactory =
+                    Persistence.createEntityManagerFactory("my-persistence-unit")){
+            EntityManager em = null;
+            em = entityManagerFactory.createEntityManager();
+            em.getTransaction().begin();
+            Session session = em.unwrap(Session.class);
+            usuarios = session.createQuery("from Usuario").list();
+            perfiles = session.createQuery("from Perfil").list();
+            em.getTransaction().commit();
+        }
     }
     public int buscarUsuarios(String nombre){
         int n = -1;
