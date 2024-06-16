@@ -1,28 +1,36 @@
 package org.InfinityCreations.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "usuario")
 public class Usuario {
     // atributos
     @Id
+    @Column(name = "id")
     private long id;
-    private static String nombre;
+    @Column(name = "nombre")
+    private String nombre;
+    @Column(name = "correo")
     private String correo;
     private Perfil perfil;
+    @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
+    @Column(name = "password")
     private String password;
+    @Column(name = "nacionalidad")
     private String nacionalidad;
     // constructor
-    public Usuario(long id, String nombre, String correo, Perfil perfil, LocalDateTime fechaRegistro, String password, String nacionalidad) {
+    public Usuario(long id, String nombre, String correo,Perfil perfil, LocalDateTime fechaRegistro, String password, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
-        this.perfil = perfil;
         this.fechaRegistro = fechaRegistro;
         this.password = password;
         this.nacionalidad = nacionalidad;
@@ -36,7 +44,7 @@ public class Usuario {
         this.id = id;
     }
 
-    public static String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
@@ -51,9 +59,11 @@ public class Usuario {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+
     public Perfil getPerfil() {
         return perfil;
     }
+
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
@@ -79,5 +89,10 @@ public class Usuario {
 
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
