@@ -1,41 +1,51 @@
 package org.InfinityCreations.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.sql.Timestamp;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-    // atributos
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Para que la BD genere automáticamente el ID
     @Column(name = "id")
     private long id;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "correo")
     private String correo;
+
+    @ManyToOne
+    @JoinColumn(name = "perfil_id") // Asume que hay una columna perfil_id que es una FK a la tabla Perfil
     private Perfil perfil;
+
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "nacionalidad")
     private String nacionalidad;
-    // constructor
-    public Usuario(long id, String nombre, String correo,Perfil perfil, LocalDateTime fechaRegistro, String password, String nacionalidad) {
+
+    // Constructor vacío necesario para JPA
+    public Usuario() {}
+
+    // Constructor completo
+    public Usuario(long id, String nombre, String correo, Perfil perfil, LocalDateTime fechaRegistro, String password, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
+        this.perfil = perfil;
         this.fechaRegistro = fechaRegistro;
         this.password = password;
         this.nacionalidad = nacionalidad;
-
     }
+
+    // Getters y setters
+
     public long getId() {
         return id;
     }
@@ -67,6 +77,7 @@ public class Usuario {
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
+
     public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
@@ -89,10 +100,5 @@ public class Usuario {
 
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

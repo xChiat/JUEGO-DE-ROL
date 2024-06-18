@@ -4,10 +4,17 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
         <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
-        <property name="hibernate.connection.password">1234</property>
         <property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/prototipo-juego-de-rol</property>
         <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">1234</property>
+        <property name="hibernate.hbm2ddl.auto">update</property> <!-- Para crear/actualizar tablas automáticamente -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <!-- Mapping classes -->
+        <mapping class="org.InfinityCreations.entities.Usuario"/>
+        <mapping class="org.InfinityCreations.entities.Perfil"/>
+        <!-- Agregar otras clases de entidad si es necesario -->
     </session-factory>
 </hibernate-configuration>

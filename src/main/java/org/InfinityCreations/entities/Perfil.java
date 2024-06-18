@@ -10,6 +10,10 @@ public class Perfil {
     private String nombre;
     private String descripcion;
 
+    // Constructor predeterminado
+    public Perfil() {
+    }
+
     public Perfil(long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;

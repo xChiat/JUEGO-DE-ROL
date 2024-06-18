@@ -6,71 +6,67 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Prototipo juego de rol");
         System.out.println("Bienvenido a Infinity Creations");
         System.out.println("¿Qué desea hacer?");
         System.out.println("1. Registrarse");
         System.out.println("2. Ingresar");
         System.out.println("3. Salir");
-        System.out.println("Ingrese una opción: ");
+        System.out.print("Ingrese una opción: ");
         Scanner scanner = new Scanner(System.in);
-        int opcion = 0;
-        opcion = scanner.nextInt();
-        if (opcion == 1){
-            registrarse();
-        }else if (opcion == 2){
-            ingresar();
-        } else if (opcion == 3){
+        int opcion = scanner.nextInt();
+        scanner.nextLine();  // Consumir la nueva línea
+
+        if (opcion == 1) {
+            registrarse(scanner);
+        } else if (opcion == 2) {
+            ingresar(scanner);
+        } else if (opcion == 3) {
             salir();
-        }else{
+        } else {
             System.out.println("Opción inválida");
         }
     }
+
     private static void salir() {
         System.out.println("Gracias por usar Infinity Creations");
     }
-    private static void ingresar() {
 
+    private static void ingresar(Scanner scanner) {
+        // Implementación pendiente
     }
-    private static void registrarse() {
+
+    private static void registrarse(Scanner scanner) {
         System.out.println("Registrarse");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese su nombre de usuario: ");
+        System.out.print("Ingrese su nombre de usuario: ");
         String nombre = scanner.nextLine();
-        if(UsuarioLogic.buscarUsuario(nombre) != -1){
+        if (UsuarioLogic.buscarUsuario(nombre) != -1) {
             System.out.println("El nombre de usuario ya existe");
-            registrarse();
-        }else{
-            System.out.println("Ingrese su correo: ");
+            registrarse(scanner);
+        } else {
+            System.out.print("Ingrese su correo: ");
             String correo = scanner.nextLine();
             System.out.println("Elija su perfil de usuario");
             System.out.println("1. Jugador");
             System.out.println("2. Game Master");
-            int opcion = 0;
-            opcion = scanner.nextInt();
-            if (opcion == 1){
-                int perfil_id= opcion;
-                System.out.println("Ingrese su nacionalidad: ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();  // Consumir la nueva línea
+
+            if (opcion == 1 || opcion == 2) {
+                int perfil_id = opcion;
+                System.out.print("Ingrese su nacionalidad: ");
                 String nacionalidad = scanner.nextLine();
-                System.out.println("Ingrese su contraseña: ");
+                System.out.print("Ingrese su contraseña: ");
                 String password = scanner.nextLine();
                 String psswd = PasswordToHash.getSHA256Hash(password);
-                UsuarioLogic.crearUsuario(nombre, correo, perfil_id, nacionalidad, psswd);
-                System.out.println("Usuario creado exitosamente");
-            }else if(opcion == 2){
-                int perfil_id= opcion;
-                System.out.println("Ingrese su nacionalidad: ");
-                String nacionalidad = scanner.nextLine();
-                System.out.println("Ingrese su contraseña: ");
-                String password = scanner.nextLine();
-                String psswd = PasswordToHash.getSHA256Hash(password);
-                UsuarioLogic.crearUsuario(nombre, correo, perfil_id, nacionalidad, psswd);
-                System.out.println("Usuario creado exitosamente");
-            }else{
+                if (UsuarioLogic.crearUsuario(nombre, correo, perfil_id, psswd, nacionalidad)) {
+                    System.out.println("Usuario creado exitosamente");
+                } else {
+                    System.out.println("Error al crear el usuario");
+                }
+            } else {
                 System.out.println("Opción inválida");
-                registrarse();
+                registrarse(scanner);
             }
         }
     }
