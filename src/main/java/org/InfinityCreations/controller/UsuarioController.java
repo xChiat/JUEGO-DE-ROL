@@ -14,6 +14,10 @@ public class UsuarioController {
     private List<Usuario> usuarios;
 
     public UsuarioController() {
+        cargarUsuarios();
+    }
+
+    private void cargarUsuarios() {
         SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
         Session session = sf.openSession();
         usuarios = new ArrayList<>();
@@ -45,9 +49,10 @@ public class UsuarioController {
         Session session = sf.openSession();
         try {
             Perfil pf = session.get(Perfil.class, id_perfil);
+            long id = usuarios.size() + 1;
             LocalDateTime fechaRegistro = LocalDateTime.now();
             session.beginTransaction();
-            Usuario usuario = new Usuario(0, nombre, correo, pf, fechaRegistro, password, nacionalidad);  // Deja que la BD genere el ID
+            Usuario usuario = new Usuario(id, nombre, correo, pf, fechaRegistro, password, nacionalidad);
             session.save(usuario);
             session.getTransaction().commit();
             usuarios.add(usuario);  // Asegúrate de actualizar la lista en memoria
@@ -55,6 +60,27 @@ public class UsuarioController {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        } finally {
+            session.close();  // Asegúrate de cerrar la sesión
+        }
+    }
+
+    public Usuario autenticarUsuario(String nombre, String password) {
+        SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
+        Session session = sf.openSession();
+        Usuario usuario = null;
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from Usuario where nombre = :nombre and password = :password");
+            query.setParameter("nombre", nombre);
+            query.setParameter("password", password);
+            @SuppressWarnings("unchecked")
+            Usuario usuarioResult = (Usuario) query.getSingleResult();
+            session.getTransaction().commit();
+            return usuarioResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             session.close();  // Asegúrate de cerrar la sesión
         }
