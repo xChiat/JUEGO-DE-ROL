@@ -43,6 +43,14 @@ public class UsuarioController {
         }
         return n;
     }
+    public Usuario getUsuario(String nombre) {
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (usuarios.get(i).getNombre().equals(nombre)) {
+                return usuarios.get(i);
+            }
+        }
+        return null;
+    }
 
     public Boolean crearUsuario(String nombre, String correo, int id_perfil, String password, String nacionalidad) {
         SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
