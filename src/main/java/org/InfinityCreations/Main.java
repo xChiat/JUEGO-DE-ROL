@@ -1,4 +1,5 @@
 package org.InfinityCreations;
+
 import org.InfinityCreations.entities.Usuario;
 import org.InfinityCreations.logic.PasswordToHash;
 import org.InfinityCreations.logic.UsuarioLogic;
@@ -7,42 +8,24 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Prototipo juego de rol");
         System.out.println("Bienvenido a Infinity Creations");
-        int opcion = 0;
-        while (opcion != 3) {
-            System.out.println("¿Qué desea hacer?");
-            System.out.println("1. Registrarse");
-            System.out.println("2. Ingresar");
-            System.out.println("3. Salir");
-            System.out.println("Ingrese una opción: ");
-            opcion = validateOpcion(3);
-            if (opcion == 1){
-                registrarse();
-            } else if (opcion == 2){
-                ingresar();
-            } else if (opcion == 3){
-                salir();
-            } else {
-                System.out.println("Opción inválida");
-            }
-        }
+        menuPrincipal();
     }
-    private static int validateOpcion(int menu){
+
+    private static int validateOpcion(int menu) {
         Scanner scanner = new Scanner(System.in);
-        while(true){
-            try{
+        while (true) {
+            try {
                 int opcion = scanner.nextInt();
-                if(opcion >= 1 && opcion <= menu){
+                if (opcion >= 1 && opcion <= menu) {
                     return opcion;
-                }else{
+                } else {
                     System.out.println("Opción inválida");
                 }
-            }catch(NumberFormatException opcion){
+            } catch (NumberFormatException opcion) {
                 System.out.println("Solo se pueden ingresar numeros");
-                validateOpcion(menu);
+                scanner.next();  // Consumir el valor incorrecto
             }
         }
     }
@@ -58,7 +41,8 @@ public class Main {
         System.out.println("1. para ingresar su contraseña: ");
         System.out.println("2. para recuperar la contraseña: ");
         int opc = validateOpcion(2);
-        if(opc == 1){
+        if (opc == 1) {
+            System.out.println("Ingrese su contraseña: ");
             String password = scanner.nextLine();
             boolean fndUser = UsuarioLogic.iniciarSesion(nombre, password);
             if (fndUser) {
@@ -72,7 +56,7 @@ public class Main {
             } else {
                 System.out.println("Nombre de usuario o contraseña incorrectos");
             }
-        }else{
+        } else {
             recuperarPassword(nombre);
         }
     }
@@ -82,7 +66,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingrese su nombre de usuario: ");
         String nombre = scanner.nextLine();
-        if(UsuarioLogic.buscarUsuario(nombre) != -1){
+        if (UsuarioLogic.buscarUsuario(nombre) != -1) {
             System.out.println("El nombre de usuario ya existe");
             registrarse();
         } else {
@@ -91,18 +75,16 @@ public class Main {
             System.out.println("Elija su perfil de usuario");
             System.out.println("1. Jugador");
             System.out.println("2. Game Master");
-            int opcion = 0;
-            opcion = scanner.nextInt();
-            scanner.nextLine();  // Consumir el salto de línea
+            int opcion = validateOpcion(2);
             if (opcion == 1 || opcion == 2) {
                 int perfil_id = opcion;
                 System.out.println("Ingrese su nacionalidad: ");
                 String nacionalidad = scanner.nextLine();
                 System.out.println("Ingrese su contraseña: ");
                 String password = scanner.nextLine();
-                String psswd = PasswordToHash.getSHA256Hash(password);
-                if (UsuarioLogic.crearUsuario(nombre, correo, perfil_id, psswd, nacionalidad)) {
+                if (UsuarioLogic.crearUsuario(nombre, correo, perfil_id, password, nacionalidad)) {
                     System.out.println("Usuario creado exitosamente");
+                    menuPrincipal();
                 } else {
                     System.out.println("Error al crear el usuario");
                 }
@@ -112,19 +94,35 @@ public class Main {
             }
         }
     }
-    private static void recuperarPassword(String nombre){
+
+    private static void recuperarPassword(String nombre) {
         Scanner scanner = new Scanner(System.in);
-        int fndusername = UsuarioLogic.buscarUsuario(nombre);
-        if(fndusername != -1){
-            Usuario user = UsuarioLogic.getUsuario(nombre);
-            String oldPassword = user.getPassword();
-            System.out.println("Ingrese su nueva contraseña:");
-            String password = scanner.nextLine();
-            if(password != oldPassword){
-                UsuarioLogic.cambiarPassword(nombre,password);
-            }else{
-                System.out.println("La contraseña no puede ser igual a la anterior");
-            }
+        System.out.println("Ingrese su nueva contraseña:");
+        String password = scanner.nextLine();
+        if (UsuarioLogic.cambiarPassword(nombre, password)) {
+            System.out.println("Contraseña cambiada exitosamente");
+            ingresar();
+        } else {
+            System.out.println("Error al cambiar la contraseña");
+        }
+    }
+
+    private static void menuPrincipal() {
+        int opcion = 0;
+        System.out.println("¿Qué desea hacer?");
+        System.out.println("1. Registrarse");
+        System.out.println("2. Ingresar");
+        System.out.println("3. Salir");
+        System.out.println("Ingrese una opción: ");
+        opcion = validateOpcion(3);
+        if (opcion == 1) {
+            registrarse();
+        } else if (opcion == 2) {
+            ingresar();
+        } else if (opcion == 3) {
+            salir();
+        } else {
+            System.out.println("Opción inválida");
         }
     }
 

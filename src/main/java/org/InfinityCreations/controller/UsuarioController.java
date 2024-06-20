@@ -24,29 +24,28 @@ public class UsuarioController {
         try {
             session.beginTransaction();
             Query query = session.createQuery("from Usuario");
-            usuarios = query.getResultList();  // Corrige la asignación aquí
+            usuarios = query.getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            session.close();  // Asegúrate de cerrar la sesión
+            session.close();
         }
     }
 
     public int buscarUsuarios(String nombre) {
-        int n = -1;
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).getNombre().equals(nombre)) {
-                n = i;
-                break;
+                return i;
             }
         }
-        return n;
+        return -1;
     }
+
     public Usuario getUsuario(String nombre) {
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (usuarios.get(i).getNombre().equals(nombre)) {
-                return usuarios.get(i);
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre)) {
+                return usuario;
             }
         }
         return null;
@@ -63,51 +62,51 @@ public class UsuarioController {
             Usuario usuario = new Usuario(id, nombre, correo, pf, fechaRegistro, password, nacionalidad);
             session.save(usuario);
             session.getTransaction().commit();
-            usuarios.add(usuario);  // Asegúrate de actualizar la lista en memoria
+            usuarios.add(usuario);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         } finally {
-            session.close();  // Asegúrate de cerrar la sesión
+            session.close();
         }
     }
 
     public Usuario autenticarUsuario(String nombre, String password) {
         SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
         Session session = sf.openSession();
-        Usuario usuario = null;
+        Usuario usuarioResult = null;
         try {
             session.beginTransaction();
             Query query = session.createQuery("from Usuario where nombre = :nombre and password = :password");
             query.setParameter("nombre", nombre);
             query.setParameter("password", password);
-            @SuppressWarnings("unchecked")
-            Usuario usuarioResult = (Usuario) query.getSingleResult();
+            usuarioResult = (Usuario) query.getSingleResult();
             session.getTransaction().commit();
-            return usuarioResult;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         } finally {
-            session.close();  // Asegúrate de cerrar la sesión
+            session.close();
         }
+        return usuarioResult;
     }
+
     public Boolean cambiarPassword(String nombre, String password) {
         SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
         Session session = sf.openSession();
-        Usuario user = getUsuario(nombre);
-        try{
+        try {
             session.beginTransaction();
-            user.setPassword(password);
-            session.update(user);
+            Query query = session.createQuery("update Usuario set password = :password where nombre = :nombre");
+            query.setParameter("password", password);
+            query.setParameter("nombre", nombre);
+            int result = query.executeUpdate();
             session.getTransaction().commit();
-            return true;
-        }catch (Exception e){
+            return result > 0;
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }finally {
-            session.close();  // Asegúrate de cerrar la sesión
+        } finally {
+            session.close();
         }
     }
 }
