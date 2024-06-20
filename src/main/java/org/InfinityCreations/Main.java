@@ -73,7 +73,7 @@ public class Main {
                 System.out.println("Nombre de usuario o contraseña incorrectos");
             }
         }else{
-
+            recuperarPassword(nombre);
         }
     }
 
@@ -113,9 +113,18 @@ public class Main {
         }
     }
     private static void recuperarPassword(String nombre){
+        Scanner scanner = new Scanner(System.in);
         int fndusername = UsuarioLogic.buscarUsuario(nombre);
-        if(fndusername == -1){
-
+        if(fndusername != -1){
+            Usuario user = UsuarioLogic.getUsuario(nombre);
+            String oldPassword = user.getPassword();
+            System.out.println("Ingrese su nueva contraseña:");
+            String password = scanner.nextLine();
+            if(password != oldPassword){
+                UsuarioLogic.cambiarPassword(nombre,password);
+            }else{
+                System.out.println("La contraseña no puede ser igual a la anterior");
+            }
         }
     }
 

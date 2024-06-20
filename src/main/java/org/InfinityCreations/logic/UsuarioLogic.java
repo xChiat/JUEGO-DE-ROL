@@ -27,4 +27,7 @@ public class UsuarioLogic {
         }
         return false;
     }
+    public static Boolean cambiarPassword(String nombre, String password) {
+        return usuarioController.cambiarPassword(nombre, PasswordToHash.getSHA256Hash(password));
+    }
 }

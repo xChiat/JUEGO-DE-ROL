@@ -93,4 +93,21 @@ public class UsuarioController {
             session.close();  // Asegúrate de cerrar la sesión
         }
     }
+    public Boolean cambiarPassword(String nombre, String password) {
+        SessionFactory sf = SessionFactoryProvider.provideSessionFactory();
+        Session session = sf.openSession();
+        Usuario user = getUsuario(nombre);
+        try{
+            session.beginTransaction();
+            user.setPassword(password);
+            session.update(user);
+            session.getTransaction().commit();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            session.close();  // Asegúrate de cerrar la sesión
+        }
+    }
 }
