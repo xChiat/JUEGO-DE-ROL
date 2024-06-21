@@ -3,32 +3,34 @@ package org.InfinityCreations.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Razas")
+@Table(name = "razas")
 public class Raza {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @Column(name = "nombre")
+    @Column(nullable = false, unique = true)
     private String nombre;
 
-    @Column(name = "descripcion")
     private String descripcion;
 
-    //Constructor
-    public Raza(long id, String nombre, String descripcion) {
-        this.id = id;
+    // Constructor predeterminado
+    public Raza() {
+    }
+
+    // Constructor con argumentos
+    public Raza(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-
     }
-    //Getters and setters
-    public long getId() {
+
+    // Getters y Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

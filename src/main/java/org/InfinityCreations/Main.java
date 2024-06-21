@@ -1,10 +1,11 @@
 package org.InfinityCreations;
 
+import org.InfinityCreations.entities.Raza;
 import org.InfinityCreations.entities.Usuario;
 import org.InfinityCreations.logic.RazaLogic;
 import org.InfinityCreations.logic.UsuarioLogic;
 
-import java.util.Random;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -24,8 +25,8 @@ public class Main {
                 } else {
                     System.out.println("Opción inválida");
                 }
-            } catch (NumberFormatException opcion) {
-                System.out.println("Solo se pueden ingresar numeros");
+            } catch (Exception e) {
+                System.out.println("Solo se pueden ingresar números");
                 scanner.next();
             }
         }
@@ -42,7 +43,7 @@ public class Main {
         if (UsuarioLogic.buscarUsuario(nombre) == -1) {
             System.out.println("El nombre de usuario no existe");
             ingresar();
-        }else{
+        } else {
             System.out.println("1. para ingresar su contraseña: ");
             System.out.println("2. para recuperar la contraseña: ");
             int opc = validateOpcion(2);
@@ -137,17 +138,17 @@ public class Main {
     }
 
     private static void mostrarMenuGameMaster() {
-        System.out.println("Bienvenido al menú del GameMaster");
+        System.out.println("Bienvenido al menú del Game Master");
         System.out.println("---------------------------------");
-        System.out.println("1. Gestion de personajes");
-        System.out.println("2. Gestion de misiones");
-        System.out.println("3. Gestion de razas");
-        System.out.println("4. Gestion de habilidades");
-        System.out.println("5. Gestion de poderes");
-        System.out.println("6. Gestion de equipo");
+        System.out.println("1. Gestión de personajes");
+        System.out.println("2. Gestión de misiones");
+        System.out.println("3. Gestión de razas");
+        System.out.println("4. Gestión de habilidades");
+        System.out.println("5. Gestión de poderes");
+        System.out.println("6. Gestión de equipo");
         System.out.println("7. Salir");
         int opcion = validateOpcion(7);
-        if(opcion == 1){
+        if (opcion == 1) {
             gestionPersonajes();
         } else if (opcion == 2) {
             gestionMisiones();
@@ -164,63 +165,78 @@ public class Main {
         }
     }
 
-    private static void gestionEquipo() {
+    private static void gestionPersonajes() {
+        // Implementar lógica de gestión de personajes
     }
 
-    private static void gestionPoderes() {
+    private static void gestionMisiones() {
+        // Implementar lógica de gestión de misiones
     }
 
-    private static void gestionHabilidades() {
-
-    }
-
-    private static void gestionRazas() {
+    public static void gestionRazas() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenido al menú de gestión de razas");
         System.out.println("---------------------------------");
         System.out.println("1. Crear raza");
         System.out.println("2. Eliminar raza");
         System.out.println("3. Mostrar todas las razas");
-        System.out.println("4. Regresar al menu del Game Master");
-        int opcion = validateOpcion(4);
-        if(opcion == 1){
-            crearRaza();
-        } else if (opcion == 2) {
-            eliminarRaza();
-        } else if (opcion == 3) {
-            String razas = RazaLogic.ListarRazas();
-            System.out.println(razas);
-        } else if (opcion == 4) {
-            mostrarMenuGameMaster();
+        System.out.println("4. Regresar al menú del Game Master");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (opcion) {
+            case 1:
+                System.out.println("Crear raza");
+                System.out.print("Ingrese el nombre de la raza: ");
+                String nombreCrear = scanner.nextLine();
+                if (RazaLogic.buscarRaza(nombreCrear) !=-1){
+                    System.out.println("El nombre de la raza ya existe");
+                    gestionRazas();
+                }else{
+                    System.out.print("Ingrese la descripción de la raza: ");
+                    String descripcionCrear = scanner.nextLine();
+                    RazaLogic.crearRaza(nombreCrear, descripcionCrear);
+                }
+                break;
+            case 2:
+                System.out.println("Eliminar raza");
+                System.out.print("Ingrese el nombre de la raza a eliminar: ");
+                String nombreEliminar = scanner.nextLine();
+                if (RazaLogic.buscarRaza(nombreEliminar) == -1){
+                    System.out.println("El nombre de la raza no existe");
+                    gestionRazas();
+                }else{
+                    RazaLogic.eliminarRaza(nombreEliminar);
+                    System.out.println("Raza eliminada exitosamente");
+                    break;
+                }
+            case 3:
+                System.out.println("Mostrar todas las razas");
+                List<Raza> razas = RazaLogic.obtenerRazas();
+                for (Raza raza : razas) {
+                    System.out.println(raza.getNombre() + ": " + raza.getDescripcion());
+                }
+                break;
+            case 4:
+                System.out.println("Regresar al menú del Game Master");
+                mostrarMenuGameMaster();
+                break;
+            default:
+                System.out.println("Opción no válida");
+                break;
         }
     }
 
-    private static void eliminarRaza() {
+    private static void gestionHabilidades() {
+        // Implementar lógica de gestión de habilidades
     }
 
-    private static void crearRaza() {
-        System.out.println("Crear raza");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese el nombre de la raza: ");
-        String nombre = scanner.nextLine();
-        if(RazaLogic.buscarRaza(nombre)!=-1){
-            System.out.println("La raza ya existe");
-            crearRaza();
-        }else{
-            System.out.println("Ingrese la descripción de la raza: ");
-            String descripcion = scanner.nextLine();
-            if(RazaLogic.crearRaza(nombre, descripcion)){
-                System.out.println("Raza creada exitosamente");
-                mostrarMenuGameMaster();
-            }else{
-                System.out.println("Error al crear la raza");
-                mostrarMenuGameMaster();
-            }
-        }
+    private static void gestionPoderes() {
+        // Implementar lógica de gestión de poderes
     }
 
-    private static void gestionMisiones() {
-    }
-
-    private static void gestionPersonajes() {
+    private static void gestionEquipo() {
+        // Implementar lógica de gestión de equipo
     }
 }
