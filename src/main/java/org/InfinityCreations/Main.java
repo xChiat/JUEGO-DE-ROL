@@ -1,7 +1,9 @@
 package org.InfinityCreations;
 
+import org.InfinityCreations.entities.Habilidad;
 import org.InfinityCreations.entities.Raza;
 import org.InfinityCreations.entities.Usuario;
+import org.InfinityCreations.logic.HabilidadLogic;
 import org.InfinityCreations.logic.RazaLogic;
 import org.InfinityCreations.logic.UsuarioLogic;
 
@@ -10,7 +12,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Prototipo juego de rol");
+        System.out.println("-------------------------------");
+        System.out.println("|    Prototipo juego de rol   |");
+        System.out.println("-------------------------------");
         System.out.println("Bienvenido a Infinity Creations");
         menuPrincipal();
     }
@@ -232,7 +236,91 @@ public class Main {
     }
 
     private static void gestionHabilidades() {
-        // Implementar lógica de gestión de habilidades
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("--------------------------------------------");
+        System.out.println("Bienvenido al menú de gestión de Habilidades");
+        System.out.println("--------------------------------------------");
+        System.out.println("1. Crear Habilidades");
+        System.out.println("2. Eliminar Habilidades");
+        System.out.println("3. Modificar Habilidades");
+        System.out.println("4. Buscar Habilidades por Raza");
+        System.out.println("5. Mostrar todas las Habilidades");
+        System.out.println("6. Regresar al menú del Game Master");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (opcion) {
+            case 1:
+                System.out.println("-------------------");
+                System.out.println("| Crear Habilidad |");
+                System.out.println("-------------------");
+                System.out.println("¿A que raza desea crearle una nueva habilidad? - ingrese el nombre de la raza");
+                String nombreRaza = scanner.nextLine();
+                if (RazaLogic.buscarRaza(nombreRaza) == -1){
+                    System.out.println("La raza no existe");
+                    gestionHabilidades();
+                }else{
+                    int idRaza = RazaLogic.getRaza(nombreRaza).getId();
+                    System.out.println("Ingrese el nombre de la Habilidad: ");
+                    String nombreCrear = scanner.nextLine();
+                    if (HabilidadLogic.buscarHabilidad(nombreCrear) !=-1){
+                        System.out.println("El nombre de la raza ya existe");
+                        gestionHabilidades();
+                    }else{
+                        System.out.print("Ingrese la descripción de la Habilidad: ");
+                        String descripcionCrear = scanner.nextLine();
+                        System.out.println("Asignele un valor al bono de destreza");
+                        int bonoDestreza = scanner.nextInt();
+                        System.out.println("Asignele un valor al bono de inteligencia");
+                        int bonoInteligencia = scanner.nextInt();
+                        if(HabilidadLogic.crearHabilidad(nombreCrear, descripcionCrear,idRaza, bonoDestreza, bonoInteligencia)){
+                            System.out.println("Raza creada exitosamente");
+                            mostrarMenuGameMaster();
+                        }else{
+                            System.out.println("No se pudo crear la habilidad");
+                        }
+                    }
+                }
+            case 2:
+                System.out.println("----------------------");
+                System.out.println("| Eliminar Habilidad |");
+                System.out.println("----------------------");
+                System.out.print("Ingrese el nombre de la Habilidad a eliminar: ");
+                String nombreEliminar = scanner.nextLine();
+                if (HabilidadLogic.buscarHabilidad(nombreEliminar) == -1){
+                    System.out.println("El nombre de la habilidad no existe");
+                    gestionHabilidades();
+                }else{
+                    RazaLogic.eliminarRaza(nombreEliminar);
+                    System.out.println("Habilidad eliminada exitosamente");
+                    mostrarMenuGameMaster();
+                }
+            case 3:
+
+            case 4:
+
+            case 5:
+                System.out.println("Mostrar todas las Habilidades");
+                List<Habilidad> habilidades = HabilidadLogic.obtenerHabilidades();
+                for (Habilidad habilidad : habilidades) {
+                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("Nombre : "+habilidad.getNombre());
+                    System.out.println("Descripción : "+habilidad.getDescripcion());
+                    System.out.println("Raza : "+habilidad.getRaza().getNombre());
+                    System.out.println("Bono de destreza : "+habilidad.getBonoDestresa());
+                    System.out.println("Bono de inteligencia : "+habilidad.getBonoInteligencia());
+                    System.out.println("----------------------------------------------------------------");
+                }
+                mostrarMenuGameMaster();
+            case 6:
+                System.out.println("Regresar al menú del Game Master");
+                mostrarMenuGameMaster();
+                break;
+            default:
+                System.out.println("Opción no válida");
+                break;
+        }
     }
 
     private static void gestionPoderes() {
