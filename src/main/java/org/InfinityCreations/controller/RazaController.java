@@ -54,8 +54,9 @@ public class RazaController {
     }
 
     public int buscarRaza(String nombre) {
-        for (int i = 0; i < razas.size(); i++) {
-            if (razas.get(i).getNombre().equals(nombre)) {
+        List<Raza> r = obtenerTodasLasRazas();
+        for (int i = 0; i < r.size(); i++) {
+            if (r.get(i).getNombre().equals(nombre)) {
                 return i;
             }
         }

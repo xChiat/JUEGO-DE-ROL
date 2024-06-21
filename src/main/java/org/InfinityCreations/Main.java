@@ -138,8 +138,9 @@ public class Main {
     }
 
     private static void mostrarMenuGameMaster() {
+        System.out.println("----------------------------------");
         System.out.println("Bienvenido al menú del Game Master");
-        System.out.println("---------------------------------");
+        System.out.println("----------------------------------");
         System.out.println("1. Gestión de personajes");
         System.out.println("2. Gestión de misiones");
         System.out.println("3. Gestión de razas");
@@ -175,8 +176,9 @@ public class Main {
 
     public static void gestionRazas() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("--------------------------------------");
         System.out.println("Bienvenido al menú de gestión de razas");
-        System.out.println("---------------------------------");
+        System.out.println("--------------------------------------");
         System.out.println("1. Crear raza");
         System.out.println("2. Eliminar raza");
         System.out.println("3. Mostrar todas las razas");
@@ -197,8 +199,9 @@ public class Main {
                     System.out.print("Ingrese la descripción de la raza: ");
                     String descripcionCrear = scanner.nextLine();
                     RazaLogic.crearRaza(nombreCrear, descripcionCrear);
+                    System.out.println("Raza creada exitosamente");
+                    mostrarMenuGameMaster();
                 }
-                break;
             case 2:
                 System.out.println("Eliminar raza");
                 System.out.print("Ingrese el nombre de la raza a eliminar: ");
@@ -209,7 +212,7 @@ public class Main {
                 }else{
                     RazaLogic.eliminarRaza(nombreEliminar);
                     System.out.println("Raza eliminada exitosamente");
-                    break;
+                    mostrarMenuGameMaster();
                 }
             case 3:
                 System.out.println("Mostrar todas las razas");
@@ -217,7 +220,7 @@ public class Main {
                 for (Raza raza : razas) {
                     System.out.println(raza.getNombre() + ": " + raza.getDescripcion());
                 }
-                break;
+                mostrarMenuGameMaster();
             case 4:
                 System.out.println("Regresar al menú del Game Master");
                 mostrarMenuGameMaster();
