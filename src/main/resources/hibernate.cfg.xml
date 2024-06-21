@@ -15,6 +15,7 @@
         <!-- Mapping classes -->
         <mapping class="org.InfinityCreations.entities.Usuario"/>
         <mapping class="org.InfinityCreations.entities.Perfil"/>
+        <mapping class="org.InfinityCreations.entities.Raza"/>
         <!-- Agregar otras clases de entidad si es necesario -->
     </session-factory>
 </hibernate-configuration>

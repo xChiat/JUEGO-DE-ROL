@@ -4,7 +4,7 @@ import org.InfinityCreations.controller.UsuarioController;
 import org.InfinityCreations.entities.Usuario;
 
 public class UsuarioLogic {
-    private static UsuarioController usuarioController = new UsuarioController();
+    private static final UsuarioController usuarioController = new UsuarioController();
 
     public static int buscarUsuario(String nombre) {
         return usuarioController.buscarUsuarios(nombre);

@@ -1,25 +1,27 @@
 package org.InfinityCreations.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Razas")
 public class Raza {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "descripcion")
     private String descripcion;
-    private String imagen;
-    private Habilidad[] skillsByRaza;
-    private Poder[] powersByRaza;
+
     //Constructor
-    public Raza(long id, String nombre, String descripcion, String imagen, Habilidad[] skillsByRaza, Poder[] powersByRaza) {
+    public Raza(long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagen = imagen;
-        this.skillsByRaza = skillsByRaza;
-        this.powersByRaza = powersByRaza;
+
     }
     //Getters and setters
     public long getId() {
@@ -44,29 +46,5 @@ public class Raza {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public Habilidad[] getSkillsByRaza() {
-        return skillsByRaza;
-    }
-
-    public void setSkillsByRaza(Habilidad[] skillsByRaza) {
-        this.skillsByRaza = skillsByRaza;
-    }
-
-    public Poder[] getPowersByRaza() {
-        return powersByRaza;
-    }
-
-    public void setPowersByRaza(Poder[] powersByRaza) {
-        this.powersByRaza = powersByRaza;
     }
 }

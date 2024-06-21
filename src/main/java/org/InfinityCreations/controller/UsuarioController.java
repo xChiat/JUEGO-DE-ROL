@@ -60,7 +60,7 @@ public class UsuarioController {
             LocalDateTime fechaRegistro = LocalDateTime.now();
             session.beginTransaction();
             Usuario usuario = new Usuario(id, nombre, correo, pf, fechaRegistro, password, nacionalidad);
-            session.save(usuario);
+            session.persist(usuario);
             session.getTransaction().commit();
             usuarios.add(usuario);
             return true;
