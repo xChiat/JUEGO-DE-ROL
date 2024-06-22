@@ -1,6 +1,6 @@
 package org.InfinityCreations.controller;
 
-import org.InfinityCreations.entities.Habilidad;
+import org.InfinityCreations.entities.Poder;
 import org.InfinityCreations.entities.Raza;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,20 +10,20 @@ import org.hibernate.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HabilidadController {
-    List<Habilidad> habilidades = null;
-    public HabilidadController() {
-        cargarHabilidades();
+public class PoderController {
+    List<Poder> poderes = null;
+    public PoderController() {
+        cargarPoderes();
     }
 
-    private void cargarHabilidades() {
+    private void cargarPoderes() {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
-        habilidades = new ArrayList<>();
+        poderes = new ArrayList<>();
         try {
             session.beginTransaction();
-            jakarta.persistence.Query query = session.createQuery("from Habilidad");
-            habilidades = query.getResultList();
+            jakarta.persistence.Query query = session.createQuery("from Poder");
+            poderes = query.getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,17 +31,17 @@ public class HabilidadController {
             session.close();
         }
     }
-    public int buscarHabilidad(String nombre){
-        List<Habilidad> h = obtenerTodasLasHabilidades();
-        for (int i = 0; i < h.size(); i++) {
-            if (h.get(i).getNombre().equals(nombre)) {
+    public int buscarPoder(String nombre){
+        List<Poder> p = obtenerTodosLosPoderes();
+        for (int i = 0; i < p.size(); i++) {
+            if (p.get(i).getNombre().equals(nombre)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public boolean crearHabilidad(String nombre, String descripcion, int id_raza, int bonoDestreza, int bonoInteligencia) {
+    public boolean crearPoder(String nombre, String descripcion, int id_raza, int bonoFuerza) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
@@ -52,16 +52,16 @@ public class HabilidadController {
                 throw new RuntimeException("Raza con id " + id_raza + " no encontrada");
             }
 
-            Habilidad habilidad = new Habilidad();
-            habilidad.setNombre(nombre);
-            habilidad.setDescripcion(descripcion);
-            habilidad.setRaza(rz);
-            habilidad.setBonoDestresa(bonoDestreza);
-            habilidad.setBonoInteligencia(bonoInteligencia);
+            Poder poder = new Poder();
+            poder.setNombre(nombre);
+            poder.setDescripcion(descripcion);
+            poder.setRaza(rz);
+            poder.setBonoFuerza(bonoFuerza);
 
-            session.persist(habilidad);
+
+            session.persist(poder);
             tx.commit();
-            habilidades.add(habilidad); // Asegúrate de que 'habilidades' esté sincronizado correctamente
+            poderes.add(poder); // Asegúrate de que 'habilidades' esté sincronizado correctamente
             return true;
         } catch (Exception e) {
             if (tx != null) {
@@ -75,13 +75,13 @@ public class HabilidadController {
     }
 
 
-    public boolean eliminarHabilidad(String nombre) {
+    public boolean eliminarPoder(String nombre) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            jakarta.persistence.Query query = session.createQuery("delete from Habilidad where nombre = :nombre");
+            jakarta.persistence.Query query = session.createQuery("delete from Poder where nombre = :nombre");
             query.setParameter("nombre", nombre);
             int result = query.executeUpdate();
             tx.commit();
@@ -90,7 +90,7 @@ public class HabilidadController {
             if (tx != null) {
                 tx.rollback();
             }
-            System.err.println("Error al eliminar la habilidad: " + e.getMessage());
+            System.err.println("Error al eliminar el poder: " + e.getMessage());
             e.printStackTrace();
             return false;
         } finally {
@@ -98,20 +98,19 @@ public class HabilidadController {
         }
     }
 
-    public boolean actualizarHabilidad(String nombre, String descripcion, int bonoDestresa, int bonoInteligencia) {
+    public boolean actualizarPoder(String nombre, String descripcion, int bonoFuerza) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query<Habilidad> query = session.createQuery("from Habilidad where nombre = :nombre", Habilidad.class);
+            Query<Poder> query = session.createQuery("from Poder where nombre = :nombre", Poder.class);
             query.setParameter("nombre", nombre);
-            Habilidad habilidad = query.uniqueResult();
-            if (habilidad != null) {
-                habilidad.setDescripcion(descripcion);
-                habilidad.setBonoDestresa(bonoDestresa);
-                habilidad.setBonoInteligencia(bonoInteligencia);
-                session.merge(habilidad);
+            Poder poder = query.uniqueResult();
+            if (poder != null) {
+                poder.setDescripcion(descripcion);
+                poder.setBonoFuerza(bonoFuerza);
+                session.merge(poder);
                 tx.commit();
                 return true;
             }
@@ -127,15 +126,15 @@ public class HabilidadController {
         }
     }
 
-    public static List<Habilidad> obtenerTodasLasHabilidades() {
+    public static List<Poder> obtenerTodosLosPoderes() {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-        List<Habilidad> habilidades = null;
+        List<Poder> poderes = null;
         try {
             tx = session.beginTransaction();
-            Query<Habilidad> query = session.createQuery("from Habilidad", Habilidad.class);
-            habilidades = query.list();
+            Query<Poder> query = session.createQuery("from Poder", Poder.class);
+            poderes = query.list();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -145,18 +144,18 @@ public class HabilidadController {
         } finally {
             session.close();
         }
-        return habilidades;
+        return poderes;
     }
-    public static List<Habilidad> obtenerHabilidadesxRaza(int idRaza) {
+    public static List<Poder> obtenerPoderesxRaza(int idRaza) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-        List<Habilidad> hXraza = null;
+        List<Poder> pXraza = null;
         try {
             tx = session.beginTransaction();
-            Query<Habilidad> query = session.createQuery("from Habilidad where raza.id = :idRaza", Habilidad.class);
+            Query<Poder> query = session.createQuery("from Poder where raza.id = :idRaza", Poder.class);
             query.setParameter("idRaza", idRaza);
-            hXraza = query.list();
+            pXraza = query.list();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -166,19 +165,19 @@ public class HabilidadController {
         } finally {
             session.close();
         }
-        return hXraza;
+        return pXraza;
     }
 
-    public Habilidad getHabilidad(String nombre) {
+    public Poder getPoder(String nombre) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-        Habilidad habilidad = null;
+        Poder poder = null;
         try {
             tx = session.beginTransaction();
-            Query<Habilidad> query = session.createQuery("from Habilidad where nombre = :nombre", Habilidad.class);
+            Query<Poder> query = session.createQuery("from Poder where nombre = :nombre", Poder.class);
             query.setParameter("nombre", nombre);
-            habilidad = query.uniqueResult();
+            poder = query.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -188,6 +187,6 @@ public class HabilidadController {
         } finally {
             session.close();
         }
-        return habilidad;
+        return poder;
     }
 }
