@@ -41,18 +41,27 @@ public class HabilidadController {
         return -1;
     }
 
-    public boolean crearHabilidad(String nombre, String descripcion, int id_raza, int bonoDestresa, int bonoInteligencia) {
+    public boolean crearHabilidad(String nombre, String descripcion, int id_raza, int bonoDestreza, int bonoInteligencia) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             Raza rz = session.get(Raza.class, id_raza);
-            long id = habilidades.size()+1;
-            Habilidad habilidad = new Habilidad(id, nombre, descripcion, rz, bonoDestresa, bonoInteligencia);
+            if (rz == null) {
+                throw new RuntimeException("Raza con id " + id_raza + " no encontrada");
+            }
+
+            Habilidad habilidad = new Habilidad();
+            habilidad.setNombre(nombre);
+            habilidad.setDescripcion(descripcion);
+            habilidad.setRaza(rz);
+            habilidad.setBonoDestresa(bonoDestreza);
+            habilidad.setBonoInteligencia(bonoInteligencia);
+
             session.persist(habilidad);
             tx.commit();
-            habilidades.add(habilidad);
+            habilidades.add(habilidad); // Asegúrate de que 'habilidades' esté sincronizado correctamente
             return true;
         } catch (Exception e) {
             if (tx != null) {
@@ -65,23 +74,23 @@ public class HabilidadController {
         }
     }
 
+
     public boolean eliminarHabilidad(String nombre) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Habilidad habilidad = session.get(Habilidad.class, nombre);
-            if (habilidad != null) {
-                session.delete(habilidad);
-                tx.commit();
-                return true;
-            }
-            return false;
+            jakarta.persistence.Query query = session.createQuery("delete from Habilidad where nombre = :nombre");
+            query.setParameter("nombre", nombre);
+            int result = query.executeUpdate();
+            tx.commit();
+            return result > 0;
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
+            System.err.println("Error al eliminar la raza: " + e.getMessage());
             e.printStackTrace();
             return false;
         } finally {

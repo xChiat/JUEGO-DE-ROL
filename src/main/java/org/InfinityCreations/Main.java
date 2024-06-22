@@ -188,7 +188,7 @@ public class Main {
         System.out.println("3. Mostrar todas las razas");
         System.out.println("4. Regresar al menú del Game Master");
 
-        int opcion = scanner.nextInt();
+        int opcion = validateOpcion(4);
         scanner.nextLine(); // Consume newline
 
         switch (opcion) {
@@ -247,7 +247,7 @@ public class Main {
         System.out.println("5. Mostrar todas las Habilidades");
         System.out.println("6. Regresar al menú del Game Master");
 
-        int opcion = scanner.nextInt();
+        int opcion = validateOpcion(6);
         scanner.nextLine(); // Consume newline
 
         switch (opcion) {
@@ -292,12 +292,22 @@ public class Main {
                     System.out.println("El nombre de la habilidad no existe");
                     gestionHabilidades();
                 }else{
-                    RazaLogic.eliminarRaza(nombreEliminar);
+                    HabilidadLogic.eliminarHabilidad(nombreEliminar);
                     System.out.println("Habilidad eliminada exitosamente");
                     mostrarMenuGameMaster();
                 }
             case 3:
-
+                System.out.println("-----------------------");
+                System.out.println("| Modificar Habilidad |");
+                System.out.println("-----------------------");
+                System.out.print("Ingrese el nombre de la Habilidad a modificar: ");
+                String nombreModificar = scanner.nextLine();
+                if(HabilidadLogic.buscarHabilidad(nombreModificar) == -1){
+                    System.out.println("El nombre de la habilidad no existe");
+                    gestionHabilidades();
+                }else{
+                    menuModificarHabilidad(nombreModificar);
+                }
             case 4:
 
             case 5:
@@ -315,6 +325,103 @@ public class Main {
                 mostrarMenuGameMaster();
             case 6:
                 System.out.println("Regresar al menú del Game Master");
+                mostrarMenuGameMaster();
+                break;
+            default:
+                System.out.println("Opción no válida");
+                break;
+        }
+    }
+
+    private static void menuModificarHabilidad(String nombre) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Que deseas modificar?");
+        System.out.println("1. Descripción");
+        System.out.println("2. Bono de destreza");
+        System.out.println("3. Bono de inteligencia");
+        System.out.println("4. Regresar al menú de gestión de Habilidades");
+        int opcion = validateOpcion(4);
+        scanner.nextLine(); // Consume newline
+        switch (opcion) {
+            case 1:
+                System.out.print("Ingrese la nueva descripción: ");
+                String descripcion = scanner.nextLine();
+                int bnDst = HabilidadLogic.getHabilidad(nombre).getBonoDestresa();
+                int bnInt = HabilidadLogic.getHabilidad(nombre).getBonoInteligencia();
+                if(HabilidadLogic.actualizarHabilidad(nombre, descripcion, bnDst, bnInt)){
+                    System.out.println("Descripcion modificada exitosamente");
+                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
+                    System.out.println("1. Si");
+                    System.out.println("2. No");
+                    int opcion2 = validateOpcion(2);
+                    switch (opcion2){
+                        case 1:
+                            menuModificarHabilidad(nombre);
+                            break;
+                        case 2:
+                            mostrarMenuGameMaster();
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                            break;
+                    }
+                    mostrarMenuGameMaster();
+                }else{
+                    System.out.println("No se pudo modificar la habilidad");
+                }
+                break;
+            case 2:
+                System.out.print("Ingrese el nuevo bono de destreza: ");
+                int bnDst2 = scanner.nextInt();
+                String desc = HabilidadLogic.getHabilidad(nombre).getDescripcion();
+                int bnInt2 = HabilidadLogic.getHabilidad(nombre).getBonoInteligencia();
+                if(HabilidadLogic.actualizarHabilidad(nombre, desc,bnDst2,bnInt2)){
+                    System.out.println("Bono de destreza modificado exitosamente");
+                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
+                    System.out.println("1. Si");
+                    System.out.println("2. No");
+                    int opcion3 = validateOpcion(2);
+                    switch (opcion3){
+                        case 1:
+                            menuModificarHabilidad(nombre);
+                            break;
+                        case 2:
+                            mostrarMenuGameMaster();
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                            break;
+                    }
+                    mostrarMenuGameMaster();
+                }
+            case 3:
+                System.out.print("Ingrese el nuevo bono de inteligencia: ");
+                int bnInt3 = scanner.nextInt();
+                String desc2 = HabilidadLogic.getHabilidad(nombre).getDescripcion();
+                int bnDst3 = HabilidadLogic.getHabilidad(nombre).getBonoDestresa();
+                if(HabilidadLogic.actualizarHabilidad(nombre, desc2,bnDst3,bnInt3)){
+                    System.out.println("Bono de inteligencia modificado exitosamente");
+                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
+                    System.out.println("1. Si");
+                    System.out.println("2. No");
+                    int opcion4 = validateOpcion(2);
+                    switch (opcion4){
+                        case 1:
+                            menuModificarHabilidad(nombre);
+                            break;
+                        case 2:
+                            mostrarMenuGameMaster();
+                            break;
+                        default:
+                            System.out.println("Opción no válida");
+                            break;
+                    }
+                    mostrarMenuGameMaster();
+                }
+            case 4:
                 mostrarMenuGameMaster();
                 break;
             default:

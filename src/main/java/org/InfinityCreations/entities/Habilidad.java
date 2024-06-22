@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "habilidades")
 public class Habilidad {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Para que la BD genere automáticamente el ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
@@ -21,19 +21,19 @@ public class Habilidad {
     private Raza raza;
 
     @Column(name = "bono_destreza")
-    private int bonoDestresa;
+    private int bonoDestreza;
 
     @Column(name = "bono_inteligencia")
     private int bonoInteligencia;
 
     public Habilidad() {}
 
-    public Habilidad(long id, String nombre, String descripcion, Raza raza, int bonoDestresa, int bonoInteligencia) {
+    public Habilidad(long id, String nombre, String descripcion, Raza raza, int bonoDestreza, int bonoInteligencia) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.raza = raza;
-        this.bonoDestresa = bonoDestresa;
+        this.bonoDestreza = bonoDestreza;
         this.bonoInteligencia = bonoInteligencia;
     }
 
@@ -70,11 +70,11 @@ public class Habilidad {
     }
 
     public int getBonoDestresa() {
-        return bonoDestresa;
+        return bonoDestreza;
     }
 
     public void setBonoDestresa(int bonoDestresa) {
-        this.bonoDestresa = bonoDestresa;
+        this.bonoDestreza = bonoDestresa;
     }
 
     public int getBonoInteligencia() {

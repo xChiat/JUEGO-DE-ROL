@@ -9,13 +9,13 @@
         <property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/prototipo-juego-de-rol</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">1234</property>
-        <property name="hibernate.hbm2ddl.auto">update</property> <!-- Para crear/actualizar tablas automáticamente -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <!-- Mapping classes -->
         <mapping class="org.InfinityCreations.entities.Usuario"/>
         <mapping class="org.InfinityCreations.entities.Perfil"/>
         <mapping class="org.InfinityCreations.entities.Raza"/>
-        <!-- Agregar otras clases de entidad si es necesario -->
+        <mapping class="org.InfinityCreations.entities.Habilidad"/>
     </session-factory>
 </hibernate-configuration>
