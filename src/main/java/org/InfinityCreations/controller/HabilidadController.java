@@ -104,7 +104,9 @@ public class HabilidadController {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Habilidad habilidad = session.get(Habilidad.class, nombre);
+            Query<Habilidad> query = session.createQuery("from Habilidad where nombre = :nombre", Habilidad.class);
+            query.setParameter("nombre", nombre);
+            Habilidad habilidad = query.uniqueResult();
             if (habilidad != null) {
                 habilidad.setDescripcion(descripcion);
                 habilidad.setBonoDestresa(bonoDestresa);
@@ -153,7 +155,9 @@ public class HabilidadController {
         Habilidad habilidad = null;
         try {
             tx = session.beginTransaction();
-            habilidad = session.get(Habilidad.class, nombre);
+            Query<Habilidad> query = session.createQuery("from Habilidad where nombre = :nombre", Habilidad.class);
+            query.setParameter("nombre", nombre);
+            habilidad = query.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
