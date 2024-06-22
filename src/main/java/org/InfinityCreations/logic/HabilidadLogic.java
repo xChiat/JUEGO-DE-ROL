@@ -7,6 +7,7 @@ import java.util.List;
 
 public class HabilidadLogic {
     private static List<Habilidad> habilidades;
+    private  static List<Habilidad> hXraza = null;
     private static final HabilidadController habilidadController = new HabilidadController();
     public static int buscarHabilidad(String nombre) {
         return habilidadController.buscarHabilidad(nombre);
@@ -28,6 +29,9 @@ public class HabilidadLogic {
             actualizarListaDeHabilidades();
         }
         return habilidades;
+    }
+    public static List<Habilidad> obtenerHabilidadesxRaza(int idRaza){
+        return HabilidadController.obtenerHabilidadesxRaza(idRaza);
     }
     private static void actualizarListaDeHabilidades(){
         habilidades = HabilidadController.obtenerTodasLasHabilidades();

@@ -221,7 +221,10 @@ public class Main {
                 System.out.println("Mostrar todas las razas");
                 List<Raza> razas = RazaLogic.obtenerRazas();
                 for (Raza raza : razas) {
-                    System.out.println(raza.getNombre() + ": " + raza.getDescripcion());
+                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("Raza: "+raza.getNombre());
+                    System.out.println("Descripción: "+raza.getDescripcion());
+                    System.out.println("----------------------------------------------------------------");
                 }
                 mostrarMenuGameMaster();
             case 4:
@@ -307,7 +310,28 @@ public class Main {
                     menuModificarHabilidad(nombreModificar);
                 }
             case 4:
-
+                System.out.println("-----------------------------");
+                System.out.println("| Buscar Habilidad por Raza |");
+                System.out.println("-----------------------------");
+                System.out.print("Ingrese el nombre de la Raza: ");
+                String nomRaza = scanner.nextLine();
+                if(RazaLogic.buscarRaza(nomRaza) == -1){
+                    System.out.println("La raza no existe");
+                    gestionHabilidades();
+                }else{
+                    int idRaza = RazaLogic.getRaza(nomRaza).getId();
+                    List<Habilidad> hXraza = HabilidadLogic.obtenerHabilidadesxRaza(idRaza);
+                    for (Habilidad habilidad : hXraza) {
+                        System.out.println("----------------------------------------------------------------");
+                        System.out.println("Nombre : "+habilidad.getNombre());
+                        System.out.println("Descripción : "+habilidad.getDescripcion());
+                        System.out.println("Raza : "+habilidad.getRaza().getNombre());
+                        System.out.println("Bono de destreza : "+habilidad.getBonoDestresa());
+                        System.out.println("Bono de inteligencia : "+habilidad.getBonoInteligencia());
+                        System.out.println("----------------------------------------------------------------");
+                    }
+                    mostrarMenuGameMaster();
+                }
             case 5:
                 System.out.println("Mostrar todas las Habilidades");
                 List<Habilidad> habilidades = HabilidadLogic.obtenerHabilidades();

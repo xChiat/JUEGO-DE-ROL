@@ -147,6 +147,27 @@ public class HabilidadController {
         }
         return habilidades;
     }
+    public static List<Habilidad> obtenerHabilidadesxRaza(int idRaza) {
+        SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        List<Habilidad> hXraza = null;
+        try {
+            tx = session.beginTransaction();
+            Query<Habilidad> query = session.createQuery("from Habilidad where raza.id = :idRaza", Habilidad.class);
+            query.setParameter("idRaza", idRaza);
+            hXraza = query.list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return hXraza;
+    }
 
     public Habilidad getHabilidad(String nombre) {
         SessionFactory sessionFactory = SessionFactoryProvider.provideSessionFactory();
