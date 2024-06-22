@@ -32,7 +32,7 @@ public class HabilidadLogic {
     public static List<Habilidad> obtenerHabilidadesxRaza(int idRaza){
         return HabilidadController.obtenerHabilidadesxRaza(idRaza);
     }
-    private static void actualizarListaDeHabilidades(){
+    public static void actualizarListaDeHabilidades(){
         habilidades = HabilidadController.obtenerTodasLasHabilidades();
     }
 }

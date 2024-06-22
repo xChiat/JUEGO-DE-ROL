@@ -279,6 +279,7 @@ public class Main {
                         int bonoInteligencia = scanner.nextInt();
                         if(HabilidadLogic.crearHabilidad(nombreCrear, descripcionCrear,idRaza, bonoDestreza, bonoInteligencia)){
                             System.out.println("Habilidad creada exitosamente");
+                            HabilidadLogic.actualizarListaDeHabilidades();
                             mostrarMenuGameMaster();
                         }else{
                             System.out.println("No se pudo crear la habilidad");
@@ -297,6 +298,7 @@ public class Main {
                 }else{
                     HabilidadLogic.eliminarHabilidad(nombreEliminar);
                     System.out.println("Habilidad eliminada exitosamente");
+                    HabilidadLogic.actualizarListaDeHabilidades();
                     mostrarMenuGameMaster();
                 }
             case 3:
@@ -376,6 +378,7 @@ public class Main {
                 String descripcion = scanner.nextLine();
                 if (HabilidadLogic.actualizarHabilidad(nombre, descripcion, habilidad.getBonoDestresa(), habilidad.getBonoInteligencia())) {
                     System.out.println("Descripcion modificada exitosamente");
+                    HabilidadLogic.actualizarListaDeHabilidades();
                     System.out.println("----------------------------------------------------------------");
                     System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
                     System.out.println("1. Si");
@@ -403,6 +406,7 @@ public class Main {
                 int bnDst2 = scanner.nextInt();
                 if (HabilidadLogic.actualizarHabilidad(nombre, habilidad.getDescripcion(), bnDst2, habilidad.getBonoInteligencia())) {
                     System.out.println("Bono de destreza modificado exitosamente");
+                    HabilidadLogic.actualizarListaDeHabilidades();
                     System.out.println("----------------------------------------------------------------");
                     System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
                     System.out.println("1. Si");
@@ -430,6 +434,7 @@ public class Main {
                 int bnInt3 = scanner.nextInt();
                 if (HabilidadLogic.actualizarHabilidad(nombre, habilidad.getDescripcion(), habilidad.getBonoDestresa(), bnInt3)) {
                     System.out.println("Bono de inteligencia modificado exitosamente");
+                    HabilidadLogic.actualizarListaDeHabilidades();
                     System.out.println("----------------------------------------------------------------");
                     System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
                     System.out.println("1. Si");
@@ -499,6 +504,7 @@ public class Main {
                         int bonoFuerza = scanner.nextInt();
                         if(PoderLogic.crearPoder(nombreCrear,descripcionCrear,idRaza,bonoFuerza)){
                             System.out.println("Poder creado exitosamente");
+                            PoderLogic.actualizarListaDePoderes();
                             mostrarMenuGameMaster();
                         }else{
                             System.out.println("No se pudo crear el Poder");
@@ -517,6 +523,7 @@ public class Main {
                 }else{
                     PoderLogic.eliminarPoder(nombreEliminar);
                     System.out.println("Poder eliminado exitosamente");
+                    PoderLogic.actualizarListaDePoderes();
                     mostrarMenuGameMaster();
                 }
             case 3:
@@ -593,6 +600,7 @@ public class Main {
                 String descripcion = scanner.nextLine();
                 if (PoderLogic.actualizarPoder(nombre, descripcion, poder.getBonoFuerza())) {
                     System.out.println("Descripcion modificada exitosamente");
+                    PoderLogic.actualizarListaDePoderes();
                     System.out.println("----------------------------------------------------------------");
                     System.out.println("¿Desea seguir modificando la habilidad "+nombre+"?");
                     System.out.println("1. Si");
@@ -620,6 +628,7 @@ public class Main {
                 int bnFZ = scanner.nextInt();
                 if (PoderLogic.actualizarPoder(nombre,poder.getDescripcion(),bnFZ)) {
                     System.out.println("Bono de fuerza modificado exitosamente");
+                    PoderLogic.actualizarListaDePoderes();
                     System.out.println("----------------------------------------------------------------");
                     System.out.println("¿Desea seguir modificando el poder "+nombre+"?");
                     System.out.println("1. Si");

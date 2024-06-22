@@ -32,7 +32,7 @@ public class PoderLogic {
     public static List<Poder> obtenerPoderesxRaza(int idRaza){
         return PoderController.obtenerPoderesxRaza(idRaza);
     }
-    private static void actualizarListaDePoderes(){
+    public static void actualizarListaDePoderes(){
         poderes = PoderController.obtenerTodosLosPoderes();
     }
 }
