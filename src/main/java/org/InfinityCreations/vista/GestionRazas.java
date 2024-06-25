@@ -31,7 +31,7 @@ public class GestionRazas {
         switch (opcion) {
             case 1:
                 System.out.println("Crear raza");
-                System.out.print("Ingrese el nombre de la raza: ");
+                System.out.println("Ingrese el nombre de la raza: ");
                 String nombreCrear = readInputWithMaxLength(scanner, maxNombreLength);
                 if (RazaLogic.buscarRaza(nombreCrear) !=-1){
                     System.out.println("El nombre de la raza ya existe");

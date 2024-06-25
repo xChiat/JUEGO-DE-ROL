@@ -81,7 +81,7 @@ public class PoderController {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            jakarta.persistence.Query query = session.createQuery("delete from Poder where nombre = :nombre");
+            Query<Poder> query = session.createQuery("delete from Poder where nombre = :nombre",Poder.class);
             query.setParameter("nombre", nombre);
             int result = query.executeUpdate();
             tx.commit();

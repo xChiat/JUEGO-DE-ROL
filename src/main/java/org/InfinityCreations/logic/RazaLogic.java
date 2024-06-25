@@ -34,6 +34,8 @@ public class RazaLogic {
     public static List<Raza> obtenerRazas() {
         if (razas == null) {
             actualizarListaDeRazas();
+        }else if (razas.isEmpty()) {
+            return razas;
         }
         return razas;
     }

@@ -18,5 +18,6 @@
         <mapping class="org.InfinityCreations.entities.Raza"/>
         <mapping class="org.InfinityCreations.entities.Habilidad"/>
         <mapping class="org.InfinityCreations.entities.Poder"/>
+        <mapping class="org.InfinityCreations.entities.Estado"/>
     </session-factory>
 </hibernate-configuration>

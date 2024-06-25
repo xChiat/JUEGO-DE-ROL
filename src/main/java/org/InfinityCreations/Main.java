@@ -8,6 +8,7 @@ import org.InfinityCreations.logic.HabilidadLogic;
 import org.InfinityCreations.logic.PoderLogic;
 import org.InfinityCreations.logic.RazaLogic;
 import org.InfinityCreations.logic.UsuarioLogic;
+import org.InfinityCreations.vista.GestionEstados;
 import org.InfinityCreations.vista.GestionHabilidades;
 import org.InfinityCreations.vista.GestionPoderes;
 import org.InfinityCreations.vista.GestionRazas;
@@ -151,7 +152,7 @@ public class Main {
         System.out.println("Bienvenido al menú del Game Master");
         System.out.println("----------------------------------");
         System.out.println("1. Gestión de personajes");
-        System.out.println("2. Gestión de misiones");
+        System.out.println("2. Gestión de estados");
         System.out.println("3. Gestión de razas");
         System.out.println("4. Gestión de habilidades");
         System.out.println("5. Gestión de poderes");
@@ -159,9 +160,9 @@ public class Main {
         System.out.println("7. Salir");
         int opcion = validateOpcion(7);
         if (opcion == 1) {
-            gestionPersonajes();
+
         } else if (opcion == 2) {
-            gestionMisiones();
+            GestionEstados.gestionEstados();
         } else if (opcion == 3) {
             GestionRazas.gestionRazas();
         } else if (opcion == 4) {
@@ -169,21 +170,11 @@ public class Main {
         } else if (opcion == 5) {
             GestionPoderes.gestionPoderes();
         } else if (opcion == 6) {
-            gestionEquipo();
+
         } else if (opcion == 7) {
             salir();
         }
     }
 
-    private static void gestionPersonajes() {
-        // Implementar lógica de gestión de personajes
-    }
 
-    private static void gestionMisiones() {
-        // Implementar lógica de gestión de misiones
-    }
-
-    private static void gestionEquipo() {
-        // Implementar lógica de gestión de equipo
-    }
 }

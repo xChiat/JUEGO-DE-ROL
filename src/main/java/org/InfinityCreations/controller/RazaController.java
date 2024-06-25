@@ -78,13 +78,10 @@ public class RazaController {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-
-            // Crear una nueva instancia de Raza
-            Raza raza = new Raza(nombre, descripcion);
-
-            // Persistir la nueva instancia usando merge
-            session.merge(raza);
-
+            Raza raza = new Raza();
+            raza.setNombre(nombre);
+            raza.setDescripcion(descripcion);
+            session.persist(raza);
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -121,15 +118,5 @@ public class RazaController {
         } finally {
             session.close();
         }
-    }
-
-    public String listarRazas() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < razas.size(); i++) {
-            Raza raza = razas.get(i);
-            result.append("Nombre: ").append(raza.getNombre()).append("\n")
-                    .append("Descripción: ").append(raza.getDescripcion()).append("\n");
-        }
-        return result.toString();
     }
 }
