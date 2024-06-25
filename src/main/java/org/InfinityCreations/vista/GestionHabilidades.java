@@ -4,12 +4,16 @@ import org.InfinityCreations.Main;
 import org.InfinityCreations.entities.Habilidad;
 import org.InfinityCreations.logic.HabilidadLogic;
 import org.InfinityCreations.logic.RazaLogic;
+import org.InfinityCreations.utils.DatabaseUtils;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class GestionHabilidades {
     public static void gestionHabilidades() {
+        int maxNombreLength = DatabaseUtils.getColumnMaxLength("habilidades", "nombre");
+        int maxDescripcionLength = DatabaseUtils.getColumnMaxLength("habilidades", "descripcion");
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("--------------------------------------------");
         System.out.println("Bienvenido al menú de gestión de Habilidades");
@@ -36,13 +40,13 @@ public class GestionHabilidades {
                 }else{
                     int idRaza = RazaLogic.getRaza(nombreRaza).getId();
                     System.out.println("Ingrese el nombre de la Habilidad: ");
-                    String nombreCrear = scanner.nextLine();
+                    String nombreCrear = readInputWithMaxLength(scanner, maxNombreLength);
                     if (HabilidadLogic.buscarHabilidad(nombreCrear) !=-1){
                         System.out.println("El nombre de la habilidad ya existe");
                         gestionHabilidades();
                     }else{
                         System.out.print("Ingrese la descripción de la Habilidad: ");
-                        String descripcionCrear = scanner.nextLine();
+                        String descripcionCrear = readInputWithMaxLength(scanner, maxDescripcionLength);
                         System.out.println("Asignele un valor al bono de destreza");
                         int bonoDestreza = scanner.nextInt();
                         System.out.println("Asignele un valor al bono de inteligencia");
@@ -81,7 +85,7 @@ public class GestionHabilidades {
                     System.out.println("El nombre de la habilidad no existe");
                     gestionHabilidades();
                 }else{
-                    menuModificarHabilidad(nombreModificar);
+                    menuModificarHabilidad(nombreModificar, maxDescripcionLength);
                 }
             case 4:
                 System.out.println("-----------------------------");
@@ -129,7 +133,7 @@ public class GestionHabilidades {
         }
     }
 
-    private static void menuModificarHabilidad(String nombre) {
+    private static void menuModificarHabilidad(String nombre, int maxDescripcionLength) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("¿Que deseas modificar?");
         System.out.println("1. Descripción");
@@ -145,7 +149,7 @@ public class GestionHabilidades {
         switch (opcion) {
             case 1:
                 System.out.print("Ingrese la nueva descripción: ");
-                String descripcion = scanner.nextLine();
+                String descripcion = readInputWithMaxLength(scanner, maxDescripcionLength);
                 if (HabilidadLogic.actualizarHabilidad(nombre, descripcion, habilidad.getBonoDestresa(), habilidad.getBonoInteligencia())) {
                     System.out.println("Descripcion modificada exitosamente");
                     HabilidadLogic.actualizarListaDeHabilidades();
@@ -156,7 +160,7 @@ public class GestionHabilidades {
                     int opcion2 = Main.validateOpcion(2);
                     switch (opcion2){
                         case 1:
-                            menuModificarHabilidad(nombre);
+                            menuModificarHabilidad(nombre,maxDescripcionLength);
                             break;
                         case 2:
                             Main.mostrarMenuGameMaster();
@@ -184,7 +188,7 @@ public class GestionHabilidades {
                     int opcion2 = Main.validateOpcion(2);
                     switch (opcion2){
                         case 1:
-                            menuModificarHabilidad(nombre);
+                            menuModificarHabilidad(nombre,maxDescripcionLength);
                             break;
                         case 2:
                             Main.mostrarMenuGameMaster();
@@ -212,7 +216,7 @@ public class GestionHabilidades {
                     int opcion2 = Main.validateOpcion(2);
                     switch (opcion2){
                         case 1:
-                            menuModificarHabilidad(nombre);
+                            menuModificarHabilidad(nombre,maxDescripcionLength);
                             break;
                         case 2:
                             Main.mostrarMenuGameMaster();
@@ -234,5 +238,13 @@ public class GestionHabilidades {
                 System.out.println("Opción no válida");
                 break;
         }
+    }
+    private static String readInputWithMaxLength(Scanner scanner, int maxLength) {
+        String input = scanner.nextLine();
+        while (input.length() > maxLength) {
+            System.out.println("La entrada es demasiado larga. El máximo permitido es " + maxLength + " caracteres. Inténtelo de nuevo:");
+            input = scanner.nextLine();
+        }
+        return input;
     }
 }

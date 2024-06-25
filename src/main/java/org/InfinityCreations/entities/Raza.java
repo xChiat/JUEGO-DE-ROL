@@ -8,11 +8,13 @@ public class Raza {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,name = "nombre")
     private String nombre;
 
+    @Column(name = "descripcion")
     private String descripcion;
 
     // Constructor predeterminado

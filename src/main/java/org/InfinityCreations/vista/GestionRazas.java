@@ -1,14 +1,22 @@
 package org.InfinityCreations.vista;
 
 import org.InfinityCreations.Main;
+import org.InfinityCreations.entities.Habilidad;
+import org.InfinityCreations.entities.Poder;
 import org.InfinityCreations.entities.Raza;
+import org.InfinityCreations.logic.HabilidadLogic;
+import org.InfinityCreations.logic.PoderLogic;
 import org.InfinityCreations.logic.RazaLogic;
+import org.InfinityCreations.utils.DatabaseUtils;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class GestionRazas {
     public static void gestionRazas() {
+        int maxNombreLength = DatabaseUtils.getColumnMaxLength("razas", "nombre");
+        int maxDescripcionLength = DatabaseUtils.getColumnMaxLength("razas", "descripcion");
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("--------------------------------------");
         System.out.println("Bienvenido al menú de gestión de razas");
@@ -24,13 +32,13 @@ public class GestionRazas {
             case 1:
                 System.out.println("Crear raza");
                 System.out.print("Ingrese el nombre de la raza: ");
-                String nombreCrear = scanner.nextLine();
+                String nombreCrear = readInputWithMaxLength(scanner, maxNombreLength);
                 if (RazaLogic.buscarRaza(nombreCrear) !=-1){
                     System.out.println("El nombre de la raza ya existe");
                     gestionRazas();
                 }else{
                     System.out.print("Ingrese la descripción de la raza: ");
-                    String descripcionCrear = scanner.nextLine();
+                    String descripcionCrear = readInputWithMaxLength(scanner, maxDescripcionLength);
                     RazaLogic.crearRaza(nombreCrear, descripcionCrear);
                     System.out.println("Raza creada exitosamente");
                     Main.mostrarMenuGameMaster();
@@ -43,9 +51,17 @@ public class GestionRazas {
                     System.out.println("El nombre de la raza no existe");
                     gestionRazas();
                 }else{
-                    RazaLogic.eliminarRaza(nombreEliminar);
-                    System.out.println("Raza eliminada exitosamente");
-                    Main.mostrarMenuGameMaster();
+                    int idRaza = RazaLogic.getRaza(nombreEliminar).getId();
+                    List<Poder> pXraza = PoderLogic.obtenerPoderesxRaza(idRaza);
+                    List<Habilidad> hXraza = HabilidadLogic.obtenerHabilidadesxRaza(idRaza);
+                    if(pXraza.isEmpty() && hXraza.isEmpty()){
+                        RazaLogic.eliminarRaza(nombreEliminar);
+                        System.out.println("Raza eliminada exitosamente");
+                        Main.mostrarMenuGameMaster();
+                    }else{
+                        System.out.println("No se puede eliminar la raza porque tiene poderes o habilidades asociados");
+                        Main.mostrarMenuGameMaster();
+                    }
                 }
             case 3:
                 System.out.println("Mostrar todas las razas");
@@ -65,5 +81,13 @@ public class GestionRazas {
                 System.out.println("Opción no válida");
                 break;
         }
+    }
+    private static String readInputWithMaxLength(Scanner scanner, int maxLength) {
+        String input = scanner.nextLine();
+        while (input.length() > maxLength) {
+            System.out.println("La entrada es demasiado larga. El máximo permitido es " + maxLength + " caracteres. Inténtelo de nuevo:");
+            input = scanner.nextLine();
+        }
+        return input;
     }
 }
