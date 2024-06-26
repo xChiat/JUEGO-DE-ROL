@@ -1,17 +1,8 @@
 package org.InfinityCreations;
 
-import org.InfinityCreations.entities.Habilidad;
-import org.InfinityCreations.entities.Poder;
-import org.InfinityCreations.entities.Raza;
 import org.InfinityCreations.entities.Usuario;
-import org.InfinityCreations.logic.HabilidadLogic;
-import org.InfinityCreations.logic.PoderLogic;
-import org.InfinityCreations.logic.RazaLogic;
 import org.InfinityCreations.logic.UsuarioLogic;
-import org.InfinityCreations.vista.GestionEstados;
-import org.InfinityCreations.vista.GestionHabilidades;
-import org.InfinityCreations.vista.GestionPoderes;
-import org.InfinityCreations.vista.GestionRazas;
+import org.InfinityCreations.vista.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -170,11 +161,9 @@ public class Main {
         } else if (opcion == 5) {
             GestionPoderes.gestionPoderes();
         } else if (opcion == 6) {
-
+            GestionEquipo.gestionEquipo();
         } else if (opcion == 7) {
             salir();
         }
     }
-
-
 }

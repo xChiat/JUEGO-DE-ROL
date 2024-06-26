@@ -28,7 +28,7 @@ public class GestionEstados {
         switch (opcion) {
             case 1:
                 System.out.println("Crear estados");
-                System.out.println("Ingrese el nombre de la estado: ");
+                System.out.println("Ingrese el nombre del estado: ");
                 String nombreCrear = readInputWithMaxLength(scanner, maxNombreLength);
                 if (EstadoLogic.buscarEstado(nombreCrear) !=-1){
                     System.out.println("El nombre del estado ya existe");

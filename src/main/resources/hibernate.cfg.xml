@@ -19,5 +19,7 @@
         <mapping class="org.InfinityCreations.entities.Habilidad"/>
         <mapping class="org.InfinityCreations.entities.Poder"/>
         <mapping class="org.InfinityCreations.entities.Estado"/>
+        <mapping class="org.InfinityCreations.entities.Armas"/>
+        <mapping class="org.InfinityCreations.entities.Armaduras"/>
     </session-factory>
 </hibernate-configuration>
