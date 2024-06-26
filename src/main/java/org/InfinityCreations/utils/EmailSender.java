@@ -7,7 +7,7 @@ import javax.mail.internet.*;
 public class EmailSender {
     public static void sendEmail(String to, String subject, String body) {
         final String username = "infinity.creations.xx@gmail.com";
-        final String password = "Inacap1234";
+        final String password = "zhxp osmh pwjy jfus ";
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

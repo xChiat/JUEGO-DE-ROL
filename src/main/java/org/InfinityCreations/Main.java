@@ -2,9 +2,9 @@ package org.InfinityCreations;
 
 import org.InfinityCreations.entities.Usuario;
 import org.InfinityCreations.logic.UsuarioLogic;
+import org.InfinityCreations.utils.PasswordRecovery;
 import org.InfinityCreations.vista.*;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -104,13 +104,31 @@ public class Main {
 
     private static void recuperarPassword(String nombre) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese su nueva contraseña:");
-        String password = scanner.nextLine();
-        if (UsuarioLogic.cambiarPassword(nombre, password)) {
-            System.out.println("Contraseña cambiada exitosamente");
-            ingresar();
+        Usuario usuario = UsuarioLogic.getUsuario(nombre);
+        if (usuario == null) {
+            System.out.println("El nombre de usuario no existe");
+            return;
+        }
+
+        int verificationCode = PasswordRecovery.generateVerificationCode();
+        PasswordRecovery.sendVerificationCode(usuario.getCorreo(), verificationCode);
+
+        System.out.println("Se ha enviado un código de verificación a su correo.");
+        System.out.println("Ingrese el código de verificación:");
+        int enteredCode = scanner.nextInt();
+
+        if (enteredCode == verificationCode) {
+            System.out.println("Código de verificación correcto. Ingrese su nueva contraseña:");
+            scanner.nextLine(); // Consume the newline left-over
+            String password = scanner.nextLine();
+            if (UsuarioLogic.cambiarPassword(nombre, password)) {
+                System.out.println("Contraseña cambiada exitosamente");
+                ingresar();
+            } else {
+                System.out.println("Error al cambiar la contraseña");
+            }
         } else {
-            System.out.println("Error al cambiar la contraseña");
+            System.out.println("Código de verificación incorrecto.");
         }
     }
 
