@@ -56,7 +56,7 @@ public class Main {
                     Usuario usuario = UsuarioLogic.getUsuario(nombre);
                     System.out.println("Inicio de sesión exitoso");
                     if (usuario.getPerfil().getId() == 1) {
-                        mostrarMenuJugador();
+                        mostrarMenuJugador(usuario);
                     } else if (usuario.getPerfil().getId() == 2) {
                         mostrarMenuGameMaster();
                     }
@@ -151,9 +151,27 @@ public class Main {
         }
     }
 
-    private static void mostrarMenuJugador() {
+    public static void mostrarMenuJugador(Usuario usuario) {
         System.out.println("Bienvenido al juego");
-        salir();
+        System.out.println("----------------------------------");
+        System.out.println("Bienvenido al menú del Game Master");
+        System.out.println("----------------------------------");
+        System.out.println("1. Gestión de personajes");
+        System.out.println("2. Tienda");
+        System.out.println("3. Comenzar Aventura");
+        System.out.println("4. Salir");
+        int opcion = validateOpcion(4);
+        if (opcion == 1) {
+            GestionPersonajesJugador.gestionPersonajesJugador(usuario);
+        } else if (opcion == 2) {
+            System.out.println("Proximamente...");
+            mostrarMenuJugador(usuario);
+        } else if (opcion == 3) {
+            System.out.println("Proximamente...");
+            mostrarMenuJugador(usuario);
+        } else if (opcion == 4) {
+            salir();
+        }
     }
 
     public static void mostrarMenuGameMaster() {
